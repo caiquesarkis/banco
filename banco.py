@@ -1,3 +1,4 @@
+
 import sqlite3
 import os
 import time
@@ -21,7 +22,7 @@ def login(nome,senha):
 	if senha == int(sen[0]):
 		print("logado!")
 		time.sleep(1)
-		os.system("cls")
+		os.system("clear")
 		return 1
 	else:
 		print("tente novamente!")
@@ -46,36 +47,38 @@ def saque(quantidade,nome):
 	c.execute("UPDATE conta SET saldo ='{}' WHERE nome ='{}'".format(int(saldo),str(nome)))
 	connection.commit()
 
-
-a = login(str(input("nome: \n")),int(input("senha: \n")))
-
+if input("voce e registrado ?") =="sim":
+	os.system("clear")
+	a = login(str(input("nome: \n")),int(input("senha: \n")))
+else:
+	a =1 
 t =1
 while a==1:
 	x = input("(1)criar conta: \n(2)status: \n(3)depositar: \n(4)saque: \n(enter)sair: \n")
 	if x == "1":
-		os.system("cls")
+		os.system("clear")
 		conta1 =  conta(str(input("nome: \n")),int(input("senha: \n")))
 		print("conta criada!")
 		time.sleep(t)
-		os.system("cls")
+		os.system("clear")
 	elif x=="2":
-		os.system("cls")
+		os.system("clear")
 		status(input("nome: "))
 		time.sleep(t)
-		os.system("cls")
+		os.system("clear")
 		
 	elif x == "3":
-		os.system("cls")
+		os.system("clear")
 		deposito(int(input("quantidade: " )),str(input("nome: ")))
 		print("deposito realizado!")
 		time.sleep(t)
-		os.system("cls")
+		os.system("clear")
 	elif x=="4":
-		os.system("cls")
+		os.system("clear")
 		saque(int(input("quantidade: " )),str(input("nome: ")))
 		print("saque realizado!")
 		time.sleep(t)
-		os.system("cls")
+		os.system("clear")
 	else:
 		print("obrigado por usar meu sistema!")
 		a = 2
