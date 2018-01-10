@@ -4,15 +4,28 @@ import time
 connection= sqlite3.connect("banco.db")
 c=connection.cursor()
 
-c.execute("CREATE TABLE IF NOT EXISTS conta (nome text,saldo integer)")
+c.execute("CREATE TABLE IF NOT EXISTS conta (nome text,saldo integer,senha integer)")
 
 
 class conta:
-	def __init__(self,nome):
+	def __init__(self,nome,senha):
 		self.nome =nome
+		self.senha =senha
 		self.saldo = 0
-		c.execute("INSERT INTO conta (nome,saldo) VALUES ('{}','{}')".format(str(self.nome),int(self.saldo)))
+		c.execute("INSERT INTO conta (nome,saldo,senha) VALUES ('{}','{}','{}')".format(str(self.nome),int(self.saldo),int(self.senha)))
 		connection.commit()
+
+def login(nome,senha):
+	c.execute("SELECT senha FROM conta WHERE nome='{}'".format(nome))
+	sen = c.fetchone()
+	if senha == int(sen[0]):
+		print("logado!")
+		time.sleep(1)
+		os.system("cls")
+		return 1
+	else:
+		print("tente novamente!")
+
 
 def status(nome):
 	c.execute("SELECT saldo FROM conta WHERE nome='{}'".format(nome))
@@ -31,16 +44,17 @@ def saque(quantidade,nome):
 	row = c.fetchone()
 	saldo = int(row[0])-quantidade
 	c.execute("UPDATE conta SET saldo ='{}' WHERE nome ='{}'".format(int(saldo),str(nome)))
-	connection.commit()d
+	connection.commit()
 
+
+a = login(str(input("nome: \n")),int(input("senha: \n")))
 
 t =1
-a = 1
 while a==1:
-	x = input("(1)criar conta: \n(2)status: \n(3)depositar: \n(4)saque: \n")
+	x = input("(1)criar conta: \n(2)status: \n(3)depositar: \n(4)saque: \n(enter)sair: \n")
 	if x == "1":
 		os.system("cls")
-		conta1 =  conta(input("digite o nome do novo usuario: "))
+		conta1 =  conta(str(input("nome: \n")),int(input("senha: \n")))
 		print("conta criada!")
 		time.sleep(t)
 		os.system("cls")
@@ -65,7 +79,3 @@ while a==1:
 	else:
 		print("obrigado por usar meu sistema!")
 		a = 2
-
-
-
-input()
